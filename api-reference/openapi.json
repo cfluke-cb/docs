@@ -57,7 +57,97 @@
               }
             }
           }
-        }
+        },
+        "x-codeSamples": [
+          {
+            "lang": "bash",
+            "label": "List all unwatered plants",
+            "source": "planter list -u"
+          },
+          {
+            "lang": "ts-sdk",
+            "label": "List all unwatered plants",
+            "source": "
+            require('dotenv').config();
+const {
+  CoinbasePrimeClient,
+  CoinbasePrimeCredentials,
+  ActivitiesService,
+} = require('../dist');
+
+const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
+const portfolioId = process.env.PORTFOLIO_ID;
+
+const credentials = new CoinbasePrimeCredentials(
+  creds.AccessKey,
+  creds.SecretKey,
+  creds.Passphrase
+);
+
+const client = new CoinbasePrimeClient(credentials);
+
+const service = new ActivitiesService(client);
+service
+  .listPortfolioActivities({
+    portfolioId,
+  })
+  .then((activities) => {
+    console.dir(activities, { depth: null });
+  })
+  .catch((err) => console.log(err));
+            "
+          },
+          {
+            "lang": "go-sdk",
+            "label": "List all unwatered plants",
+            "source": "
+            package main
+
+import (
+	"context"
+	"encoding/json"
+	"fmt"
+	"log"
+
+	"github.com/coinbase-samples/prime-sdk-go/activities"
+	"github.com/coinbase-samples/prime-sdk-go/client"
+	"github.com/coinbase-samples/prime-sdk-go/credentials"
+)
+
+func main() {
+
+	credentials, err := credentials.ReadEnvCredentials("PRIME_CREDENTIALS")
+	if err != nil {
+		log.Fatalf("unable to read credentials from environment: %v", err)
+	}
+
+	httpClient, err := client.DefaultHttpClient()
+	if err != nil {
+		log.Fatalf("unable to load default http client: %v", err)
+	}
+
+	client := client.NewRestClient(credentials, httpClient)
+
+	activitiesSvc := activities.NewActivitiesService(client)
+
+	request := &activities.ListActivitiesRequest{
+		PortfolioId: credentials.PortfolioId,
+	}
+
+	response, err := activitiesSvc.ListActivities(context.Background(), request)
+	if err != nil {
+		log.Fatalf("unable to list activities: %v", err)
+	}
+
+	output, err := json.MarshalIndent(response, "", "  ")
+	if err != nil {
+		log.Fatalf("error marshaling response to JSON: %v", err)
+	}
+	fmt.Println(string(output))
+}
+            "
+          }
+        ]
       },
       "post": {
         "description": "Creates a new plant in the store",
@@ -155,9 +245,7 @@
   "components": {
     "schemas": {
       "Plant": {
-        "required": [
-          "name"
-        ],
+        "required": ["name"],
         "type": "object",
         "properties": {
           "name": {
@@ -176,9 +264,7 @@
             "$ref": "#/components/schemas/Plant"
           },
           {
-            "required": [
-              "id"
-            ],
+            "required": ["id"],
             "type": "object",
             "properties": {
               "id": {
@@ -191,10 +277,7 @@
         ]
       },
       "Error": {
-        "required": [
-          "error",
-          "message"
-        ],
+        "required": ["error", "message"],
         "type": "object",
         "properties": {
           "error": {
