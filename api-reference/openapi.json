@@ -104,26 +104,26 @@ service
             package main
 
 import (
-	"context"
-	"encoding/json"
-	"fmt"
-	"log"
+	\"context\"
+	\"encoding/json\"
+	\"fmt\"
+	\"log\"
 
-	"github.com/coinbase-samples/prime-sdk-go/activities"
-	"github.com/coinbase-samples/prime-sdk-go/client"
-	"github.com/coinbase-samples/prime-sdk-go/credentials"
+	\"github.com/coinbase-samples/prime-sdk-go/activities\"
+	\"github.com/coinbase-samples/prime-sdk-go/client\"
+	\"github.com/coinbase-samples/prime-sdk-go/credentials\"
 )
 
 func main() {
 
-	credentials, err := credentials.ReadEnvCredentials("PRIME_CREDENTIALS")
+	credentials, err := credentials.ReadEnvCredentials(\"PRIME_CREDENTIALS\")
 	if err != nil {
-		log.Fatalf("unable to read credentials from environment: %v", err)
+		log.Fatalf(\"unable to read credentials from environment: %v\", err)
 	}
 
 	httpClient, err := client.DefaultHttpClient()
 	if err != nil {
-		log.Fatalf("unable to load default http client: %v", err)
+		log.Fatalf(\"unable to load default http client: %v\", err)
 	}
 
 	client := client.NewRestClient(credentials, httpClient)
@@ -136,12 +136,12 @@ func main() {
 
 	response, err := activitiesSvc.ListActivities(context.Background(), request)
 	if err != nil {
-		log.Fatalf("unable to list activities: %v", err)
+		log.Fatalf(\"unable to list activities: %v\", err)
 	}
 
 	output, err := json.MarshalIndent(response, "", "  ")
 	if err != nil {
-		log.Fatalf("error marshaling response to JSON: %v", err)
+		log.Fatalf(\"error marshaling response to JSON: %v\", err)
 	}
 	fmt.Println(string(output))
 }
