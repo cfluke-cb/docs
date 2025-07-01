@@ -146,7 +146,40 @@ func main() {
 	fmt.Println(string(output))
 }
             "
-          }
+          },
+          {
+            "lang": "javascript",
+            "label": "List all unwatered plants",
+            "source": "
+            require('dotenv').config();
+const {
+  CoinbasePrimeClient,
+  CoinbasePrimeCredentials,
+  ActivitiesService,
+} = require('../dist');
+
+const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
+const portfolioId = process.env.PORTFOLIO_ID;
+
+const credentials = new CoinbasePrimeCredentials(
+  creds.AccessKey,
+  creds.SecretKey,
+  creds.Passphrase
+);
+
+const client = new CoinbasePrimeClient(credentials);
+
+const service = new ActivitiesService(client);
+service
+  .listPortfolioActivities({
+    portfolioId,
+  })
+  .then((activities) => {
+    console.dir(activities, { depth: null });
+  })
+  .catch((err) => console.log(err));
+            "
+          },
         ]
       },
       "post": {
