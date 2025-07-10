@@ -65,121 +65,25 @@
             "source": "planter list -u"
           },
           {
-            "lang": "ts-sdk",
+            "lang": "javascript",
             "label": "List all unwatered plants",
-            "source": "
-            require('dotenv').config();
-const {
-  CoinbasePrimeClient,
-  CoinbasePrimeCredentials,
-  ActivitiesService,
-} = require('../dist');
-
-const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
-const portfolioId = process.env.PORTFOLIO_ID;
-
-const credentials = new CoinbasePrimeCredentials(
-  creds.AccessKey,
-  creds.SecretKey,
-  creds.Passphrase
-);
-
-const client = new CoinbasePrimeClient(credentials);
-
-const service = new ActivitiesService(client);
-service
-  .listPortfolioActivities({
-    portfolioId,
-  })
-  .then((activities) => {
-    console.dir(activities, { depth: null });
-  })
-  .catch((err) => console.log(err));
-            "
+            "source": "require('dotenv').config();\nconst {\n  CoinbasePrimeClient,\n  CoinbasePrimeCredentials,\n  ActivitiesService,\n} = require('../dist');\n\nconst creds = JSON.parse(process.env.PRIME_CREDENTIALS);\nconst portfolioId = process.env.PORTFOLIO_ID;\n\nconst credentials = new CoinbasePrimeCredentials(\n  creds.AccessKey,\n  creds.SecretKey,\n  creds.Passphrase\n);\n\nconst client = new CoinbasePrimeClient(credentials);\n\nconst service = new ActivitiesService(client);\nservice\n  .listPortfolioActivities({\n    portfolioId,\n  })\n  .then((activities) => {\n    console.dir(activities, { depth: null });\n  })\n  .catch((err) => console.log(err));"
           },
           {
-            "lang": "go-sdk",
-            "label": "List all unwatered plants",
-            "source": "
-            package main
-
-import (
-	\"context\"
-	\"encoding/json\"
-	\"fmt\"
-	\"log\"
-
-	\"github.com/coinbase-samples/prime-sdk-go/activities\"
-	\"github.com/coinbase-samples/prime-sdk-go/client\"
-	\"github.com/coinbase-samples/prime-sdk-go/credentials\"
-)
-
-func main() {
-
-	credentials, err := credentials.ReadEnvCredentials(\"PRIME_CREDENTIALS\")
-	if err != nil {
-		log.Fatalf(\"unable to read credentials from environment: %v\", err)
-	}
-
-	httpClient, err := client.DefaultHttpClient()
-	if err != nil {
-		log.Fatalf(\"unable to load default http client: %v\", err)
-	}
-
-	client := client.NewRestClient(credentials, httpClient)
-
-	activitiesSvc := activities.NewActivitiesService(client)
-
-	request := &activities.ListActivitiesRequest{
-		PortfolioId: credentials.PortfolioId,
-	}
-
-	response, err := activitiesSvc.ListActivities(context.Background(), request)
-	if err != nil {
-		log.Fatalf(\"unable to list activities: %v\", err)
-	}
-
-	output, err := json.MarshalIndent(response, "", "  ")
-	if err != nil {
-		log.Fatalf(\"error marshaling response to JSON: %v\", err)
-	}
-	fmt.Println(string(output))
-}
-            "
+            "lang": "go",
+            "label": "List all portfolio activities",
+            "source": "package main\n\nimport (\n\t\"context\"\n\t\"encoding/json\"\n\t\"fmt\"\n\t\"log\"\n\n\t\"github.com/coinbase-samples/prime-sdk-go/activities\"\n\t\"github.com/coinbase-samples/prime-sdk-go/client\"\n\t\"github.com/coinbase-samples/prime-sdk-go/credentials\"\n)\n\nfunc main() {\n\n\tcredentials, err := credentials.ReadEnvCredentials(\"PRIME_CREDENTIALS\")\n\tif err != nil {\n\t\tlog.Fatalf(\"unable to read credentials from environment: %v\", err)\n\t}\n\n\thttpClient, err := client.DefaultHttpClient()\n\tif err != nil {\n\t\tlog.Fatalf(\"unable to load default http client: %v\", err)\n\t}\n\n\tclient := client.NewRestClient(credentials, httpClient)\n\n\tactivitiesSvc := activities.NewActivitiesService(client)\n\n\trequest := &activities.ListActivitiesRequest{\n\t\tPortfolioId: credentials.PortfolioId,\n\t}\n\n\tresponse, err := activitiesSvc.ListActivities(context.Background(), request)\n\tif err != nil {\n\t\tlog.Fatalf(\"unable to list activities: %v\", err)\n\t}\n\n\toutput, err := json.MarshalIndent(response, \"\", \"  \")\n\tif err != nil {\n\t\tlog.Fatalf(\"error marshaling response to JSON: %v\", err)\n\t}\n\tfmt.Println(string(output))\n}"
           },
           {
             "lang": "javascript",
-            "label": "List all unwatered plants",
-            "source": "
-            require('dotenv').config();
-const {
-  CoinbasePrimeClient,
-  CoinbasePrimeCredentials,
-  ActivitiesService,
-} = require('../dist');
-
-const creds = JSON.parse(process.env.PRIME_CREDENTIALS);
-const portfolioId = process.env.PORTFOLIO_ID;
-
-const credentials = new CoinbasePrimeCredentials(
-  creds.AccessKey,
-  creds.SecretKey,
-  creds.Passphrase
-);
-
-const client = new CoinbasePrimeClient(credentials);
-
-const service = new ActivitiesService(client);
-service
-  .listPortfolioActivities({
-    portfolioId,
-  })
-  .then((activities) => {
-    console.dir(activities, { depth: null });
-  })
-  .catch((err) => console.log(err));
-            "
+            "label": "List all portfolio activities",
+            "source": "require('dotenv').config();\nconst {\n  CoinbasePrimeClient,\n  CoinbasePrimeCredentials,\n  ActivitiesService,\n} = require('../dist');\n\nconst creds = JSON.parse(process.env.PRIME_CREDENTIALS);\nconst portfolioId = process.env.PORTFOLIO_ID;\n\nconst credentials = new CoinbasePrimeCredentials(\n  creds.AccessKey,\n  creds.SecretKey,\n  creds.Passphrase\n);\n\nconst client = new CoinbasePrimeClient(credentials);\n\nconst service = new ActivitiesService(client);\nservice\n  .listPortfolioActivities({\n    portfolioId,\n  })\n  .then((activities) => {\n    console.dir(activities, { depth: null });\n  })\n  .catch((err) => console.log(err));"
           },
+          {
+            "lang": "javascript",
+            "label": "List all order activities",
+            "source": "require('dotenv').config();\nconst {\n  CoinbasePrimeClient,\n  CoinbasePrimeCredentials,\n  ActivitiesService,\n} = require('../dist');\n\nconst creds = JSON.parse(process.env.PRIME_CREDENTIALS);\nconst portfolioId = process.env.PORTFOLIO_ID;\n\nconst credentials = new CoinbasePrimeCredentials(\n  creds.AccessKey,\n  creds.SecretKey,\n  creds.Passphrase\n);\n\nconst client = new CoinbasePrimeClient(credentials);\n\nconst service = new ActivitiesService(client);\nservice\n  .listPortfolioActivities({\n    portfolioId,\n    categories: ['ACTIVITY_CATEGORY_ORDER']\n  })\n  .then((activities) => {\n    console.dir(activities, { depth: null });\n  })\n  .catch((err) => console.log(err));"
+          }
         ]
       },
       "post": {
